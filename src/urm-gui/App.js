@@ -12,7 +12,7 @@ function App() {
   regs.set_r(1003, 6666666)
   return (
     <div className="App">
-      <RegistersComponent initial_register={100} register_length={10} regs={regs}/>
+      <RegistersComponent initial_register={0} register_length={10} regs={regs}/>
     </div>
   );
 }
