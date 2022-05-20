@@ -1,21 +1,16 @@
 import './App.css';
+import Registers from '../jurm-module/registers';
+import RegistersComponent from './Registers.js';
 
 function App() {
+  let regs = new Registers(0);
+  regs.set_r(0, 1)
+  regs.set_r(4, 3)
+  regs.set_r(5, 10)
+  regs.set_r(1002, 3)
   return (
     <div className="App">
-      <header className="App-header">
-        <p>
-            Javascript Unlimited Register Machine
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <RegistersComponent initial_register={100} register_length={10} regs={regs}/>
     </div>
   );
 }
