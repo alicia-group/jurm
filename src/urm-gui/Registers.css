@@ -1,0 +1,13 @@
+
+.cells_header {
+  text-align: left;
+  color: green;
+  font-size: 10px;
+  padding-right: 40px;
+  font-weight: normal;
+}
+
+.cells {
+  padding-right: 40px;
+  font-size: 40px;
+}

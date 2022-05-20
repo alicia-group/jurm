@@ -8,6 +8,8 @@ function App() {
   regs.set_r(4, 3)
   regs.set_r(5, 10)
   regs.set_r(1002, 3)
+  regs.set_r(1001, 666)
+  regs.set_r(1003, 6666666)
   return (
     <div className="App">
       <RegistersComponent initial_register={100} register_length={10} regs={regs}/>

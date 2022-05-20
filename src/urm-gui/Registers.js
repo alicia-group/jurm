@@ -1,5 +1,6 @@
 
 import React from 'react';
+import './Registers.css';
 
 class RegistersComponent extends React.Component {
   constructor(props) {
