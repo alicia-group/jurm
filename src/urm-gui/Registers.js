@@ -34,7 +34,7 @@ class RegistersComponent extends React.Component {
     }
     return (
       <div>
-        <table>
+        <table className="registers_table">
           <tbody>
             <tr>
               {headers}
@@ -44,7 +44,7 @@ class RegistersComponent extends React.Component {
             </tr>
           </tbody>
         </table>
-        <div>
+        <div className="first_register_input_div">
           <label htmlFor="first_register">Choose first register to show above: </label>
           <input id="first_register" type="text"></input>
           <button type="button" onClick={() => this.changeFirstRegister()}>Choose!</button> 

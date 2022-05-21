@@ -11,3 +11,15 @@
   padding-right: 40px;
   font-size: 40px;
 }
+
+.registers_table {
+  display: grid;
+  justify-content: center;
+  margin: 20px;
+}
+
+.first_register_input_div {
+  display: grid;
+  justify-content: center;
+  margin: 20px;
+}
