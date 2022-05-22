@@ -77,6 +77,10 @@ export default class App extends React.Component {
           <input id="first_register" type="text"></input>
           <button type="button" onClick={() => this.changeFirstRegister()}>Choose!</button> 
         </div>
+        <div className="editor-buttons">
+          <button type="button" className="editor-button run" onClick={() => this.runButton()}>Run!</button> 
+          <button type="button" className="editor-button debuger" onClick={() => console.log('run debugger click')}>Run Debuger!</button> 
+        </div>
         <CodeMirror
           value={initial_code}
           height="200px"
@@ -85,7 +89,6 @@ export default class App extends React.Component {
             this.setState({code: value});
           }}
         />
-        <button type="button" onClick={() => this.runButton()}>Run!</button> 
       </div>
     );
   }

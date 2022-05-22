@@ -4,6 +4,16 @@
   margin-right: 10%;
 }
 
+.editor-buttons {
+  margin-left: 10%;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.editor-button {
+  margin-left: 20px;
+}
+
 .cm-editor-error-line {
   background-color: #ff000080;
 }
