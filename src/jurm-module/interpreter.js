@@ -12,6 +12,7 @@ export default class Interpreter {
 
   load_parse_tree(parse_tree) {
     this.parse_tree = parse_tree;
+    this.PC = 0;
   }
 
   reset_registers(default_value) {

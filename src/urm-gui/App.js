@@ -3,7 +3,8 @@ import React from 'react';
 import CodeMirror from '@uiw/react-codemirror';
 
 import './App.css';
-import Registers from '../jurm-module/registers';
+import compile from '../jurm-module/compile.js';
+import Interpreter from '../jurm-module/interpreter';
 import RegistersComponent from './Registers.js';
 import initial_code from '../initial_code.js';
 
@@ -12,13 +13,8 @@ export default class App extends React.Component {
     super();
     let initial_register = 0;
     this.register_length = 10;
-    let regs = new Registers(0);
-    regs.set_r(0, 1);
-    regs.set_r(4, 3);
-    regs.set_r(5, 10);
-    regs.set_r(1002, 3);
-    regs.set_r(1001, 666);
-    regs.set_r(1003, 6666666);
+    this.interpreter = new Interpreter();
+    let regs = this.interpreter.regs;
     this.state = {
       regs: regs,
       code: initial_code,
@@ -27,8 +23,14 @@ export default class App extends React.Component {
   }
 
   runButton() {
-    console.log(this.state.code);
-    this.setRegisterWithAnimation(4, 11);
+    let result_parse = compile(this.state.code);
+    if (result_parse.line_error === -1) {
+      this.interpreter.load_parse_tree(result_parse.parse_tree);
+      this.interpreter.run();
+      this.setState({regs: this.interpreter.regs});
+    } else {
+      console.error(`Error on line ${result_parse.line_error}`);
+    }
   }
 
   setRegisterWithAnimation(r_index, value) {
