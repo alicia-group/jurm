@@ -12,7 +12,7 @@ function isRegisterNumber(word) {
 class LexerResult {
   constructor() {
     this.tokens = [];
-    this.unregonized = "";
+    this.unregonized_line = -1;
   }
 }
 
@@ -20,6 +20,7 @@ export default function lexer(code) {
   let words_per_line;
   let lines = code.split('\n');
   let result = new LexerResult();
+  let line_index = 0;
   for (let line of lines) {
     words_per_line = line.split(' ');
     for (let word of words_per_line) {
@@ -48,9 +49,11 @@ export default function lexer(code) {
       if (word === '' || word === '\t') {
         continue;
       } else {
+        result.unregonized_line = line_index;
         return result;
       }
     }
+    line_index++;
     result.tokens.push(tokens.NEW_LINE)
   }
   result.tokens.pop();
