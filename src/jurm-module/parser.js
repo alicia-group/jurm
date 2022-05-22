@@ -57,6 +57,24 @@ export default function parse(tokens_input) {
         return parse_tree;
       }
     }
+    if (next_token === tokens.JUMP) {
+      correct_statement = (
+        (tokens_input[next_token_index + 1] === tokens.REGISTER_NUMBER) && 
+        (tokens_input[next_token_index + 2] > -1) &&
+        (tokens_input[next_token_index + 3] === tokens.NATURAL_NUMBER) &&
+        (tokens_input[next_token_index + 4] > -1) &&
+        (tokens_input[next_token_index + 5] === tokens.NEW_LINE)
+      );
+      if (correct_statement) {
+        parse_tree.statements.push(new Statement(tokens.JUMP, [tokens.REGISTER_NUMBER, tokens_input[next_token_index + 2], tokens.NATURAL_NUMBER, tokens_input[next_token_index + 4]]));
+        next_token_index += 6;
+        current_line++;
+        continue;
+      } else {
+        parse_tree.line_with_parser_error = current_line;
+        return parse_tree;
+      }
+    }
     if (next_token == tokens.NEW_LINE) {
       next_token_index++;
       current_line++;

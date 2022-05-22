@@ -51,6 +51,19 @@ it('should fail on wrong load statement', () => {
   expect(result.line_with_parser_error).toStrictEqual(0);
 });
 
+it('should parser jump statement', () => {
+  let result = parser([tokens.JUMP, tokens.REGISTER_NUMBER, 1, tokens.NATURAL_NUMBER, 100, tokens.NEW_LINE]); // jp r1 100
+  let jp_statement_expected = new Statement(tokens.JUMP, [tokens.REGISTER_NUMBER, 1, tokens.NATURAL_NUMBER, 100]);
+  expect(result.statements).toStrictEqual([jp_statement_expected]);
+  expect(result.line_with_parser_error).toStrictEqual(-1);
+});
+
+it('should fail on wrong jump statement', () => {
+  let result = parser([tokens.JUMP, tokens.REGISTER_NUMBER, 1, tokens.REGISTER_NUMBER, 100, tokens.NEW_LINE]); // wrong statement
+  expect(result.statements).toStrictEqual([]);
+  expect(result.line_with_parser_error).toStrictEqual(0);
+});
+
 it('should parser clear statement and load statement', () => {
   let result = parser([
     tokens.CLEAR, tokens.REGISTER_NUMBER, 0, tokens.NEW_LINE,                                 // clear r0
