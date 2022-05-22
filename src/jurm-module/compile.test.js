@@ -8,11 +8,11 @@ import initial_code from '../initial_code.js'
 it('should create parse tree from initial code', () => {
   let result = compile(initial_code);
   expect(result.parse_tree.statements).toStrictEqual([
-    new Statement(tokens.LOAD, [tokens.REGISTER_NUMBER, 0, tokens.NATURAL_NUMBER, 10]),
-    new Statement(tokens.LOAD, [tokens.REGISTER_NUMBER, 1, tokens.REGISTER_NUMBER, 0]),
-    new Statement(tokens.JUMP, [tokens.REGISTER_NUMBER, 0, tokens.NATURAL_NUMBER, 5]),
-    new Statement(tokens.CLEAR, [tokens.REGISTER_NUMBER, 1]),
-    new Statement(tokens.CLEAR, [tokens.REGISTER_NUMBER, 0]),
+    new Statement(tokens.LOAD, [tokens.REGISTER_NUMBER, 0, tokens.NATURAL_NUMBER, 10], 1),
+    new Statement(tokens.LOAD, [tokens.REGISTER_NUMBER, 1, tokens.REGISTER_NUMBER, 0], 2),
+    new Statement(tokens.JUMP, [tokens.REGISTER_NUMBER, 0, tokens.NATURAL_NUMBER, 5], 3),
+    new Statement(tokens.CLEAR, [tokens.REGISTER_NUMBER, 1], 4),
+    new Statement(tokens.CLEAR, [tokens.REGISTER_NUMBER, 0], 5),
   ]);
   expect(result.line_error).toStrictEqual(-1);
 });
@@ -42,8 +42,8 @@ it('should create parse tree from code with spaces and commands', () => {
   `; 
   let result = compile(code);
   expect(result.parse_tree.statements).toStrictEqual([
-    new Statement(tokens.LOAD, [tokens.REGISTER_NUMBER, 0, tokens.NATURAL_NUMBER, 1]),
-    new Statement(tokens.CLEAR, [tokens.REGISTER_NUMBER, 0]),
+    new Statement(tokens.LOAD, [tokens.REGISTER_NUMBER, 0, tokens.NATURAL_NUMBER, 1], 3),
+    new Statement(tokens.CLEAR, [tokens.REGISTER_NUMBER, 0], 5),
   ]);
   expect(result.line_error).toStrictEqual(-1);
 });

@@ -2,9 +2,10 @@
 import tokens from './tokens.js'
 
 class Statement {
-  constructor(name, args) {
+  constructor(name, args, line_number) {
     this.name = name;
     this.statement_args = args;
+    this.line_number = line_number;
   }
 }
 
@@ -30,7 +31,7 @@ export default function parse(tokens_input) {
         (tokens_input[next_token_index + 3] === tokens.NEW_LINE)
       );
       if (correct_statement) {
-        parse_tree.statements.push(new Statement(tokens.CLEAR, [tokens.REGISTER_NUMBER, tokens_input[next_token_index + 2]]));
+        parse_tree.statements.push(new Statement(tokens.CLEAR, [tokens.REGISTER_NUMBER, tokens_input[next_token_index + 2]], current_line));
         next_token_index += 4;
         current_line++;
         continue;
@@ -48,7 +49,7 @@ export default function parse(tokens_input) {
         (tokens_input[next_token_index + 5] === tokens.NEW_LINE)
       );
       if (correct_statement) {
-        parse_tree.statements.push(new Statement(tokens.LOAD, [tokens.REGISTER_NUMBER, tokens_input[next_token_index + 2], tokens_input[next_token_index + 3], tokens_input[next_token_index + 4]]));
+        parse_tree.statements.push(new Statement(tokens.LOAD, [tokens.REGISTER_NUMBER, tokens_input[next_token_index + 2], tokens_input[next_token_index + 3], tokens_input[next_token_index + 4]], current_line));
         next_token_index += 6;
         current_line++;
         continue;
@@ -66,7 +67,7 @@ export default function parse(tokens_input) {
         (tokens_input[next_token_index + 5] === tokens.NEW_LINE)
       );
       if (correct_statement) {
-        parse_tree.statements.push(new Statement(tokens.JUMP, [tokens.REGISTER_NUMBER, tokens_input[next_token_index + 2], tokens.NATURAL_NUMBER, tokens_input[next_token_index + 4]]));
+        parse_tree.statements.push(new Statement(tokens.JUMP, [tokens.REGISTER_NUMBER, tokens_input[next_token_index + 2], tokens.NATURAL_NUMBER, tokens_input[next_token_index + 4]], current_line));
         next_token_index += 6;
         current_line++;
         continue;
