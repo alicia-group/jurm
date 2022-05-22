@@ -43,18 +43,44 @@ export default class Interpreter {
     this.regs.set_r(r_number, 0);
   }
 
+  execute_jump_statement(statement) {
+    let r_number = statement.statement_args[1];
+    let r_value = this.regs.get_r(r_number);
+    if (r_value) {
+      let jump_value = statement.statement_args[3];
+      let next_statement;
+      for (let statement_index = 0; statement_index < this.parse_tree.statements.length; statement_index++) {
+        next_statement = this.parse_tree.statements[statement_index];
+        if (jump_value <= next_statement.line_number) {
+          this.PC = statement_index;
+          return;
+        }
+      }
+      console.error('Jump value out of range!');
+      this.PC = -1;
+    } 
+  }
+
+  execute_statement(statement) {
+    if (statement.name === tokens.LOAD) {
+      this.execute_load_statement(statement);
+      return;
+    }
+    if (statement.name === tokens.CLEAR) {
+      this.execute_clear_statement(statement);
+      return;
+    }
+    if (statement.name === tokens.JUMP) {
+      this.execute_jump_statement(statement);
+      return;
+    }
+  }
+
   run() {
     let next_command;
     while (this.PC >= 0) {
       next_command = this.get_next_statement();
-      if (next_command.name === tokens.LOAD) {
-        this.execute_load_statement(next_command);
-        continue;
-      }
-      if (next_command.name === tokens.CLEAR) {
-        this.execute_clear_statement(next_command);
-        continue;
-      }
+      this.execute_statement(next_command);
     }
   }
 
