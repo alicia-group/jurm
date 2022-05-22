@@ -9,43 +9,50 @@ function isRegisterNumber(word) {
   return Boolean(/^r\d+$/.exec(word));
 }
 
+class LexerResult {
+  constructor() {
+    this.tokens = [];
+    this.unregonized = "";
+  }
+}
+
 export default function lexer(code) {
   let words_per_line;
   let lines = code.split('\n');
-  let tokens_read = [];
+  let result = new LexerResult();
   for (let line of lines) {
     words_per_line = line.split(' ');
     for (let word of words_per_line) {
       if (word == 'ld') {
-        tokens_read.push(tokens.LOAD);
+        result.tokens.push(tokens.LOAD);
         continue;
       }
       if (word == 'clear') {
-        tokens_read.push(tokens.CLEAR);
+        result.tokens.push(tokens.CLEAR);
         continue;
       }
       if (word == 'jp') {
-        tokens_read.push(tokens.JUMP);
+        result.tokens.push(tokens.JUMP);
         continue;
       }
       if (isNaturalNumber(word)) {
-        tokens_read.push(tokens.NATURAL_NUMBER);
-        tokens_read.push(parseInt(word));
+        result.tokens.push(tokens.NATURAL_NUMBER);
+        result.tokens.push(parseInt(word));
         continue;
       }
       if (isRegisterNumber(word)) {
-        tokens_read.push(tokens.REGISTER_NUMBER);
-        tokens_read.push(parseInt(word.substring(1)));
+        result.tokens.push(tokens.REGISTER_NUMBER);
+        result.tokens.push(parseInt(word.substring(1)));
         continue;
       }
       if (word === '' || word === '\t') {
         continue;
       } else {
-        return tokens_read;
+        return result;
       }
     }
-    tokens_read.push(tokens.NEW_LINE)
+    result.tokens.push(tokens.NEW_LINE)
   }
-  tokens_read.pop();
-  return tokens_read;
+  result.tokens.pop();
+  return result;
 }
