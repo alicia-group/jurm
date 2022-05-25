@@ -24,19 +24,19 @@ export default function lexer(code) {
   for (let line of lines) {
     words_per_line = line.split(' ');
     for (let word of words_per_line) {
-      if (word == 'copy') {
+      if (word === 'copy') {
         result.tokens.push(tokens.COPY);
         continue;
       }
-      if (word == 'zero') {
+      if (word === 'zero') {
         result.tokens.push(tokens.ZERO);
         continue;
       }
-      if (word == 'suc') {
+      if (word === 'suc') {
         result.tokens.push(tokens.SUC);
         continue;
       }
-      if (word == 'jp') {
+      if (word === 'jp') {
         result.tokens.push(tokens.JUMP);
         continue;
       }

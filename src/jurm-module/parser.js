@@ -92,7 +92,7 @@ export default function parse(tokens_input) {
         return parse_tree;
       }
     }
-    if (next_token == tokens.NEW_LINE) {
+    if (next_token === tokens.NEW_LINE) {
       next_token_index++;
       current_line++;
       continue;
