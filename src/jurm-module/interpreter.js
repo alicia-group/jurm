@@ -61,6 +61,12 @@ export default class Interpreter {
     } 
   }
 
+  execute_suc_statement(statement) {
+    let r_number = statement.statement_args[1];
+    let value = this.regs.get_r(r_number);
+    this.regs.set_r(r_number, value + 1);
+  }
+
   execute_statement(statement) {
     if (statement.name === tokens.COPY) {
       this.execute_load_statement(statement);
@@ -72,6 +78,10 @@ export default class Interpreter {
     }
     if (statement.name === tokens.JUMP) {
       this.execute_jump_statement(statement);
+      return;
+    }
+    if (statement.name === tokens.SUC) {
+      this.execute_suc_statement(statement);
       return;
     }
   }

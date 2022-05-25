@@ -30,6 +30,15 @@ it('should interpreter clear statement', () => {
   expect(interpreter.regs.get_r(1)).toStrictEqual(10);
 });
 
+it('should interpreter suc statement', () => {
+  let interpreter = new Interpreter();
+  interpreter.reset_registers(0)
+  let result = compile('suc r0');
+  interpreter.load_parse_tree(result.parse_tree);
+  interpreter.run();
+  expect(interpreter.regs.get_r(0)).toStrictEqual(1);
+});
+
 it('should interpreter jump statement(false comparison)', () => {
   let interpreter = new Interpreter();
   let result = compile(`
