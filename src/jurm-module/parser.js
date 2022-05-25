@@ -24,14 +24,14 @@ export default function parse(tokens_input) {
   let current_line = 0;
   for (let next_token_index = 0; next_token_index < tokens_input.length;) {
     next_token = tokens_input[next_token_index];
-    if (next_token === tokens.CLEAR) {
+    if (next_token === tokens.ZERO) {
       correct_statement = (
         (tokens_input[next_token_index + 1] === tokens.REGISTER_NUMBER) && 
         (tokens_input[next_token_index + 2] > -1) &&
         (tokens_input[next_token_index + 3] === tokens.NEW_LINE)
       );
       if (correct_statement) {
-        parse_tree.statements.push(new Statement(tokens.CLEAR, [tokens.REGISTER_NUMBER, tokens_input[next_token_index + 2]], current_line));
+        parse_tree.statements.push(new Statement(tokens.ZERO, [tokens.REGISTER_NUMBER, tokens_input[next_token_index + 2]], current_line));
         next_token_index += 4;
         current_line++;
         continue;
@@ -40,7 +40,7 @@ export default function parse(tokens_input) {
         return parse_tree;
       }
     }
-    if (next_token === tokens.LOAD) {
+    if (next_token === tokens.COPY) {
       correct_statement = (
         (tokens_input[next_token_index + 1] === tokens.REGISTER_NUMBER) && 
         (tokens_input[next_token_index + 2] > -1) &&
@@ -49,7 +49,7 @@ export default function parse(tokens_input) {
         (tokens_input[next_token_index + 5] === tokens.NEW_LINE)
       );
       if (correct_statement) {
-        parse_tree.statements.push(new Statement(tokens.LOAD, [tokens.REGISTER_NUMBER, tokens_input[next_token_index + 2], tokens_input[next_token_index + 3], tokens_input[next_token_index + 4]], current_line));
+        parse_tree.statements.push(new Statement(tokens.COPY, [tokens.REGISTER_NUMBER, tokens_input[next_token_index + 2], tokens_input[next_token_index + 3], tokens_input[next_token_index + 4]], current_line));
         next_token_index += 6;
         current_line++;
         continue;

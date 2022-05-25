@@ -24,12 +24,12 @@ export default function lexer(code) {
   for (let line of lines) {
     words_per_line = line.split(' ');
     for (let word of words_per_line) {
-      if (word == 'ld') {
-        result.tokens.push(tokens.LOAD);
+      if (word == 'copy') {
+        result.tokens.push(tokens.COPY);
         continue;
       }
-      if (word == 'clear') {
-        result.tokens.push(tokens.CLEAR);
+      if (word == 'zero') {
+        result.tokens.push(tokens.ZERO);
         continue;
       }
       if (word == 'jp') {

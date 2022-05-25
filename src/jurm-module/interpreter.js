@@ -1,5 +1,4 @@
 
-import compile from './compile';
 import tokens from './tokens.js'
 import Registers from './registers.js'
 
@@ -63,11 +62,11 @@ export default class Interpreter {
   }
 
   execute_statement(statement) {
-    if (statement.name === tokens.LOAD) {
+    if (statement.name === tokens.COPY) {
       this.execute_load_statement(statement);
       return;
     }
-    if (statement.name === tokens.CLEAR) {
+    if (statement.name === tokens.ZERO) {
       this.execute_clear_statement(statement);
       return;
     }
