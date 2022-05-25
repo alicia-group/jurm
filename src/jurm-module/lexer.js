@@ -32,6 +32,10 @@ export default function lexer(code) {
         result.tokens.push(tokens.ZERO);
         continue;
       }
+      if (word == 'suc') {
+        result.tokens.push(tokens.SUC);
+        continue;
+      }
       if (word == 'jp') {
         result.tokens.push(tokens.JUMP);
         continue;

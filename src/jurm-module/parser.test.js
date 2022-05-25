@@ -25,6 +25,30 @@ it('should fail on wrong clear statement', () => {
   expect(result.line_with_parser_error).toStrictEqual(0);
 });
 
+it('should parser successor statement', () => {
+  let result = parser([tokens.SUC, tokens.REGISTER_NUMBER, 1]); // suc r1
+  let statement_expected = new Statement(tokens.SUC, [tokens.REGISTER_NUMBER, 1], 0);
+  expect(result.statements).toStrictEqual([statement_expected]);
+  expect(result.line_with_parser_error).toStrictEqual(-1);
+});
+
+it('should parser successor and zero statement', () => {
+  let result = parser([
+    tokens.NEW_LINE,
+    tokens.SUC, tokens.REGISTER_NUMBER, 1, tokens.NEW_LINE,  // suc r1
+    tokens.ZERO, tokens.REGISTER_NUMBER, 10]);               // zero r10
+  let suc_statement_expected = new Statement(tokens.SUC, [tokens.REGISTER_NUMBER, 1], 1);
+  let zero_statement_expected = new Statement(tokens.ZERO, [tokens.REGISTER_NUMBER, 10], 2);
+  expect(result.statements).toStrictEqual([suc_statement_expected, zero_statement_expected]);
+  expect(result.line_with_parser_error).toStrictEqual(-1);
+});
+
+it('should fail on wrong successor statement', () => {
+  let result = parser([tokens.SUC, tokens.NATURAL_NUMBER, 1]);
+  expect(result.statements).toStrictEqual([]);
+  expect(result.line_with_parser_error).toStrictEqual(0);
+});
+
 it('should parser load number in register statement', () => {
   let result = parser([tokens.COPY, tokens.REGISTER_NUMBER, 5, tokens.NATURAL_NUMBER, 10, tokens.NEW_LINE]); // ld r5 10 
   let ld_statement_expected = new Statement(tokens.COPY, [tokens.REGISTER_NUMBER, 5, tokens.NATURAL_NUMBER, 10], 0);

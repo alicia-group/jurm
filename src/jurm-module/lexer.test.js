@@ -19,6 +19,11 @@ it('should tokenize natural numbers', () => {
   expect(result.tokens).toStrictEqual([]);
 });
 
+it('should tokenize successor', () => {
+  let result = lexer('suc');
+  expect(result.tokens).toStrictEqual([tokens.SUC]);
+});
+
 it('should tokenize register indexes', () => {
   let result = lexer('r1234');
   expect(result.tokens).toStrictEqual([tokens.REGISTER_NUMBER, 1234]);

@@ -40,6 +40,22 @@ export default function parse(tokens_input) {
         return parse_tree;
       }
     }
+    if (next_token === tokens.SUC) {
+      correct_statement = (
+        (tokens_input[next_token_index + 1] === tokens.REGISTER_NUMBER) && 
+        (tokens_input[next_token_index + 2] > -1) &&
+        (tokens_input[next_token_index + 3] === tokens.NEW_LINE)
+      );
+      if (correct_statement) {
+        parse_tree.statements.push(new Statement(tokens.SUC, [tokens.REGISTER_NUMBER, tokens_input[next_token_index + 2]], current_line));
+        next_token_index += 4;
+        current_line++;
+        continue;
+      } else {
+        parse_tree.line_with_parser_error = current_line;
+        return parse_tree;
+      }
+    }
     if (next_token === tokens.COPY) {
       correct_statement = (
         (tokens_input[next_token_index + 1] === tokens.REGISTER_NUMBER) && 

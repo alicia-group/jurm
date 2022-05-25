@@ -5,7 +5,8 @@ const tokens = {
   COPY: 2,
   NEW_LINE: 3,
   ZERO: 4,
-  JUMP: 5
+  JUMP: 5,
+  SUC: 6
 };
 
 export default tokens;
