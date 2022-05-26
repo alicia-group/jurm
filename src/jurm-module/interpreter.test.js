@@ -43,7 +43,7 @@ it('should interpreter jump statement(false comparison)', () => {
   let interpreter = new Interpreter();
   let result = compile(`
   copy r0 0
-  jp r0 4
+  jump r0 4
   copy r5 5
   copy r6 6
   `);
@@ -58,7 +58,7 @@ it('should interpreter jump statement(true comparison)', () => {
   let interpreter = new Interpreter();
   let result = compile(`
   copy r0 10
-  jp r0 4
+  jump r0 4
   copy r5 5
   copy r6 6
   `);
@@ -75,7 +75,7 @@ it('should interpreter jump statement with new lines(false comparison)', () => {
 
   copy r0 0
 
-  jp r0 7
+  jump r0 7
 
   copy r5 5
 
@@ -95,7 +95,7 @@ it('should interpreter jump statement with new lines(true comparison)', () => {
 
   copy r0 10
 
-  jp r0 7
+  jump r0 7
 
   copy r5 5
 

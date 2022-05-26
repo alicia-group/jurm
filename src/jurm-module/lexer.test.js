@@ -37,7 +37,7 @@ it('should tokenize a complete load statement', () => {
 });
 
 it('should tokenize a complete jump statement', () => {
-  let result = lexer('jp r02 10\n');
+  let result = lexer('jump r02 10\n');
   expect(result.tokens).toStrictEqual([tokens.JUMP, tokens.REGISTER_NUMBER, 2, tokens.NATURAL_NUMBER, 10, tokens.NEW_LINE]);
   expect(result.unregonized_line).toStrictEqual(-1);
 });

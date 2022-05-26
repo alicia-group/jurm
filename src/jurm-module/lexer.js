@@ -36,7 +36,7 @@ export default function lexer(code) {
         result.tokens.push(tokens.SUC);
         continue;
       }
-      if (word === 'jp') {
+      if (word === 'jump') {
         result.tokens.push(tokens.JUMP);
         continue;
       }
