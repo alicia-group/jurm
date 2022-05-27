@@ -1,13 +1,13 @@
 {
   "files": {
     "main.css": "/jurm/static/css/main.c03aec20.css",
-    "main.js": "/jurm/static/js/main.e899ce75.js",
+    "main.js": "/jurm/static/js/main.dea22ac6.js",
     "index.html": "/jurm/index.html",
     "main.c03aec20.css.map": "/jurm/static/css/main.c03aec20.css.map",
-    "main.e899ce75.js.map": "/jurm/static/js/main.e899ce75.js.map"
+    "main.dea22ac6.js.map": "/jurm/static/js/main.dea22ac6.js.map"
   },
   "entrypoints": [
     "static/css/main.c03aec20.css",
-    "static/js/main.e899ce75.js"
+    "static/js/main.dea22ac6.js"
   ]
 }
