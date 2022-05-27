@@ -10,7 +10,7 @@ it('should create parse tree from initial code', () => {
   expect(result.parse_tree.statements).toStrictEqual([
     new Statement(tokens.COPY, [tokens.REGISTER_NUMBER, 0, tokens.NATURAL_NUMBER, 10], 2),
     new Statement(tokens.COPY, [tokens.REGISTER_NUMBER, 1, tokens.REGISTER_NUMBER, 0], 3),
-    new Statement(tokens.JUMP, [tokens.REGISTER_NUMBER, 0, tokens.REGISTER_NUMBER, 10, tokens.NATURAL_NUMBER, 5], 4),
+    new Statement(tokens.JUMP, [tokens.REGISTER_NUMBER, 0, tokens.REGISTER_NUMBER, 10, tokens.NATURAL_NUMBER, 6], 4),
     new Statement(tokens.ZERO, [tokens.REGISTER_NUMBER, 1], 5),
     new Statement(tokens.ZERO, [tokens.REGISTER_NUMBER, 0], 6),
   ]);
