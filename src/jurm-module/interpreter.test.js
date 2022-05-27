@@ -42,14 +42,14 @@ it('should interpreter suc statement', () => {
 it('should interpreter jump statement(false comparison)', () => {
   let interpreter = new Interpreter();
   let result = compile(`
-  copy r0 0
+  copy r0 5
   jump r0 r10 4
   copy r5 5
   copy r6 6
   `);
   interpreter.load_parse_tree(result.parse_tree);
   interpreter.run();
-  expect(interpreter.regs.get_r(0)).toStrictEqual(0);
+  expect(interpreter.regs.get_r(0)).toStrictEqual(5);
   expect(interpreter.regs.get_r(5)).toStrictEqual(5);
   expect(interpreter.regs.get_r(6)).toStrictEqual(6);
 });
@@ -58,13 +58,15 @@ it('should interpreter jump statement(true comparison)', () => {
   let interpreter = new Interpreter();
   let result = compile(`
   copy r0 10
-  jump r0 r5 4
+  copy r1 10
+  jump r0 r1 5
   copy r5 5
   copy r6 6
   `);
   interpreter.load_parse_tree(result.parse_tree);
   interpreter.run();
   expect(interpreter.regs.get_r(0)).toStrictEqual(10);
+  expect(interpreter.regs.get_r(1)).toStrictEqual(10);
   expect(interpreter.regs.get_r(5)).toStrictEqual(0);
   expect(interpreter.regs.get_r(6)).toStrictEqual(6);
 });
@@ -73,9 +75,29 @@ it('should interpreter jump statement with new lines(false comparison)', () => {
   let interpreter = new Interpreter();
   let result = compile(`
 
-  copy r0 0
+  copy r0 2
 
-  jump r0 r1 7
+  jump r0 r1 9
+
+  copy r5 5
+
+
+  copy r6 6
+  `);
+  interpreter.load_parse_tree(result.parse_tree);
+  interpreter.run();
+  expect(interpreter.regs.get_r(0)).toStrictEqual(2);
+  expect(interpreter.regs.get_r(5)).toStrictEqual(5);
+  expect(interpreter.regs.get_r(6)).toStrictEqual(6);
+});
+
+it('should interpreter jump statement with new lines(true comparison)', () => {
+  let interpreter = new Interpreter();
+  let result = compile(`
+
+
+
+  jump r0 r1 9
 
   copy r5 5
 
@@ -85,26 +107,7 @@ it('should interpreter jump statement with new lines(false comparison)', () => {
   interpreter.load_parse_tree(result.parse_tree);
   interpreter.run();
   expect(interpreter.regs.get_r(0)).toStrictEqual(0);
-  expect(interpreter.regs.get_r(5)).toStrictEqual(5);
-  expect(interpreter.regs.get_r(6)).toStrictEqual(6);
-});
-
-it('should interpreter jump statement with new lines(true comparison)', () => {
-  let interpreter = new Interpreter();
-  let result = compile(`
-
-  copy r0 10
-
-  jump r0 r1 7
-
-  copy r5 5
-
-
-  copy r6 6
-  `);
-  interpreter.load_parse_tree(result.parse_tree);
-  interpreter.run();
-  expect(interpreter.regs.get_r(0)).toStrictEqual(10);
+  expect(interpreter.regs.get_r(1)).toStrictEqual(0);
   expect(interpreter.regs.get_r(5)).toStrictEqual(0);
   expect(interpreter.regs.get_r(6)).toStrictEqual(6);
 });

@@ -44,9 +44,11 @@ export default class Interpreter {
   }
 
   execute_jump_statement(statement) {
-    let r_number = statement.statement_args[1];
-    let r_value = this.regs.get_r(r_number);
-    if (r_value) {
+    let r1_number = statement.statement_args[1];
+    let r2_number = statement.statement_args[3];
+    let r1_value = this.regs.get_r(r1_number);
+    let r2_value = this.regs.get_r(r2_number);
+    if (r1_value === r2_value) {
       let jump_value = statement.statement_args[5];
       let next_statement;
       for (let statement_index = 0; statement_index < this.parse_tree.statements.length; statement_index++) {
