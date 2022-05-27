@@ -45,20 +45,20 @@ it('should tokenize a complete jump statement', () => {
 it('should set unregonized line', () => {
   let result = lexer('fooba\n');
   expect(result.tokens).toStrictEqual([]);
-  expect(result.unregonized_line).toStrictEqual(0);
+  expect(result.unregonized_line).toStrictEqual(1);
   result = lexer('copy fooba\n');
   expect(result.tokens).toStrictEqual([tokens.COPY]);
-  expect(result.unregonized_line).toStrictEqual(0);
+  expect(result.unregonized_line).toStrictEqual(1);
   result = lexer('copy \n copy aaa \n');
   expect(result.tokens).toStrictEqual([tokens.COPY, tokens.NEW_LINE, tokens.COPY]);
-  expect(result.unregonized_line).toStrictEqual(1);
+  expect(result.unregonized_line).toStrictEqual(2);
 });
 
 it('should tokenize a complete load statement and set unregonized line', () => {
   let result = lexer('copy r0 100  \naaa');
   expect(result.tokens).toStrictEqual([tokens.COPY, tokens.REGISTER_NUMBER, 0, tokens.NATURAL_NUMBER, 100, tokens.NEW_LINE]);
-  expect(result.unregonized_line).toStrictEqual(1);
+  expect(result.unregonized_line).toStrictEqual(2);
   result = lexer('copy r0 100  \n \naaa \n copy');
   expect(result.tokens).toStrictEqual([tokens.COPY, tokens.REGISTER_NUMBER, 0, tokens.NATURAL_NUMBER, 100, tokens.NEW_LINE, tokens.NEW_LINE]);
-  expect(result.unregonized_line).toStrictEqual(2);
+  expect(result.unregonized_line).toStrictEqual(3);
 });

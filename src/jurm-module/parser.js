@@ -42,7 +42,7 @@ export default function parse(tokens_input) {
   let next_token;
   let correct_statement;
   let statement;
-  let current_line = 0;
+  let current_line = 1;
   for (let next_token_index = 0; next_token_index < tokens_input.length;) {
     next_token = tokens_input[next_token_index];
     if (next_token === tokens.ZERO) {
