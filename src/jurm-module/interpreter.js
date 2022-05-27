@@ -53,7 +53,7 @@ export default class Interpreter {
       let next_statement;
       for (let statement_index = 0; statement_index < this.parse_tree.statements.length; statement_index++) {
         next_statement = this.parse_tree.statements[statement_index];
-        if (jump_value <= next_statement.line_number) {
+        if (jump_value === next_statement.line_number) {
           this.PC = statement_index;
           return;
         }

@@ -1,6 +1,7 @@
 
 import lexer from './lexer.js';
 import parse from './parser.js';
+import analyzer from './semantic_analyzer.js';
 import tokens from './tokens.js';
 
 class CompileResult {
@@ -16,7 +17,8 @@ export default function compile(code) {
     return new CompileResult(null, tokenizing_result.unregonized_line);
   } else {
     let parser_result = parse(tokenizing_result.tokens);
-    return new CompileResult(parser_result, parser_result.line_with_parser_error);
+    let line_with_sintatic_or_semantic_error = analyzer(parser_result);
+    return new CompileResult(parser_result, line_with_sintatic_or_semantic_error);
   }
 }
 
