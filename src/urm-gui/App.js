@@ -1,6 +1,8 @@
 
 import React from 'react';
-import CodeMirror from '@uiw/react-codemirror';
+import {EditorState} from "@codemirror/state";
+import {EditorView} from "@codemirror/view";
+import {basicSetup} from '@codemirror/basic-setup';
 
 import './App.css';
 import compile from '../jurm-module/compile.js';
@@ -64,6 +66,35 @@ export default class App extends React.Component {
     }
   }
 
+  componentDidMount() {
+    let editor_component = document.getElementById('cm-editor-root');
+    let editor_was_not_mount = editor_component.children.length === 0;
+    if (editor_was_not_mount) {
+      console.log('Mounting editor')
+      let defaultThemeOption = EditorView.theme({
+        '&': {
+          'height': '200px',
+          'width': '80%'
+        },
+      });
+      let updateDoc = EditorView.updateListener.of((vu) => {
+        if (vu.docChanged) {
+          let doc = vu.state.doc;
+          let value = doc.toString();
+          this.setState({code: value})
+        }
+      });
+      let startState = EditorState.create({
+        doc: initial_code,
+        extensions: [basicSetup, updateDoc, defaultThemeOption]
+      })
+      let view = new EditorView({
+        state: startState,
+        parent: editor_component
+      })
+    }
+  }
+
   render() {
     return (
       <div className="App">
@@ -81,14 +112,8 @@ export default class App extends React.Component {
           <button type="button" className="editor-button run" onClick={() => this.runButton()}>Run!</button> 
           <button type="button" className="editor-button debuger" onClick={() => console.log('run debugger click')}>Run Debuger!</button> 
         </div>
-        <CodeMirror
-          value={initial_code}
-          height="200px"
-          width="80%"
-          onChange={(value, viewUpdate) => {
-            this.setState({code: value});
-          }}
-        />
+        <div id="cm-editor-root">
+        </div>
       </div>
     );
   }
