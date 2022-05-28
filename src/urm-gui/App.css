@@ -14,10 +14,6 @@
   margin-left: 20px;
 }
 
-.cm-editor-error-line {
-  background-color: #ff000080;
-}
-
 .first_register_input_div {
   display: grid;
   justify-content: center;

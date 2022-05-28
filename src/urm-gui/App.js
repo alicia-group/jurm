@@ -1,13 +1,11 @@
 
 import React from 'react';
-import {EditorState} from "@codemirror/state";
-import {EditorView} from "@codemirror/view";
-import {basicSetup} from '@codemirror/basic-setup';
 
 import './App.css';
 import compile from '../jurm-module/compile.js';
 import Interpreter from '../jurm-module/interpreter';
 import RegistersComponent from './Registers.js';
+import Editor from './Editor.js';
 import initial_code from '../initial_code.js';
 
 export default class App extends React.Component {
@@ -16,22 +14,28 @@ export default class App extends React.Component {
     let initial_register = 0;
     this.register_length = 10;
     this.interpreter = new Interpreter();
+    this.editor_ref = null;
+    this.line_with_error = -1;
     let regs = this.interpreter.regs;
     this.state = {
       regs: regs,
-      code: initial_code,
       initial_register: initial_register
     };
   }
 
   runButton() {
-    let result_parse = compile(this.state.code);
+    console.log(this.editor_ref)
+    let result_parse = compile(this.editor_ref.state.code);
     if (result_parse.line_error === -1) {
       this.interpreter.load_parse_tree(result_parse.parse_tree);
       this.interpreter.run();
+      this.line_with_error = -1;
+      this.editor_ref.setErrorLine(this.line_with_error);
       this.setState({regs: this.interpreter.regs});
     } else {
       console.error(`Error on line ${result_parse.line_error}`);
+      this.line_with_error = result_parse.line_error;
+      this.editor_ref.setErrorLine(this.line_with_error);
     }
   }
 
@@ -66,35 +70,6 @@ export default class App extends React.Component {
     }
   }
 
-  componentDidMount() {
-    let editor_component = document.getElementById('cm-editor-root');
-    let editor_was_not_mount = editor_component.children.length === 0;
-    if (editor_was_not_mount) {
-      console.log('Mounting editor')
-      let defaultThemeOption = EditorView.theme({
-        '&': {
-          'height': '200px',
-          'width': '80%'
-        },
-      });
-      let updateDoc = EditorView.updateListener.of((vu) => {
-        if (vu.docChanged) {
-          let doc = vu.state.doc;
-          let value = doc.toString();
-          this.setState({code: value})
-        }
-      });
-      let startState = EditorState.create({
-        doc: initial_code,
-        extensions: [basicSetup, updateDoc, defaultThemeOption]
-      })
-      let view = new EditorView({
-        state: startState,
-        parent: editor_component
-      })
-    }
-  }
-
   render() {
     return (
       <div className="App">
@@ -112,8 +87,9 @@ export default class App extends React.Component {
           <button type="button" className="editor-button run" onClick={() => this.runButton()}>Run!</button> 
           <button type="button" className="editor-button debuger" onClick={() => console.log('run debugger click')}>Run Debuger!</button> 
         </div>
-        <div id="cm-editor-root">
-        </div>
+        <Editor
+          ref={editor_ref => this.editor_ref = editor_ref}
+        />
       </div>
     );
   }
