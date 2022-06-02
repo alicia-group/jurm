@@ -14,7 +14,18 @@
   margin-left: 20px;
 }
 
+.register_inputs {
+  display: flex;
+  justify-content: center;
+}
+
 .first_register_input_div {
+  display: grid;
+  justify-content: center;
+  margin: 20px;
+}
+
+.first_values_input_div {
   display: grid;
   justify-content: center;
   margin: 20px;

@@ -70,6 +70,20 @@ export default class App extends React.Component {
     }
   }
 
+  inputValuesOfRegisters() {
+    let form_text = document.getElementById("first_values").value;
+    let text_items = form_text.split(' ').filter(i => i !== '');
+    let values = text_items.map(i => parseInt(i));
+    if (values.includes(NaN)) {
+      console.warn('Error when reading input values');
+    } else {
+      for (let i = 0; i < values.length; i++) {
+        this.state.regs.set_r(i, values[i]);
+      }
+      this.setState({regs: this.state.regs});
+    }
+  }
+
   render() {
     return (
       <div className="App">
@@ -78,10 +92,17 @@ export default class App extends React.Component {
           register_length={this.register_length} 
           regs={this.state.regs}
         />
-        <div className="first_register_input_div">
-          <label htmlFor="first_register">Choose first register to show above: </label>
-          <input id="first_register" type="text"></input>
-          <button type="button" onClick={() => this.changeFirstRegister()}>Choose!</button> 
+        <div className="register_inputs">
+          <div className="first_register_input_div">
+            <label htmlFor="first_register">Choose first register to show above: </label>
+            <input id="first_register" type="text"></input>
+            <button type="button" onClick={() => this.changeFirstRegister()}>Choose!</button> 
+          </div>
+          <div className="first_values_input_div">
+            <label htmlFor="first_values">Insert the first values in the registers: </label>
+            <input id="first_values" type="text"></input>
+            <button type="button" onClick={() => this.inputValuesOfRegisters()}>Load!</button> 
+          </div>
         </div>
         <div className="editor-buttons">
           <button type="button" className="editor-button run" onClick={() => this.runButton()}>Run!</button> 
