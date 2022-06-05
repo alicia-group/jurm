@@ -23,19 +23,50 @@ export default class App extends React.Component {
     };
   }
 
-  runButton() {
-    console.log(this.editor_ref)
+  loadCode() {
     let result_parse = compile(this.editor_ref.state.code);
     if (result_parse.line_error === -1) {
       this.interpreter.load_parse_tree(result_parse.parse_tree);
-      this.interpreter.run();
       this.line_with_error = -1;
       this.editor_ref.setErrorLine(this.line_with_error);
-      this.setState({regs: this.interpreter.regs});
     } else {
       console.error(`Error on line ${result_parse.line_error}`);
       this.line_with_error = result_parse.line_error;
       this.editor_ref.setErrorLine(this.line_with_error);
+    }
+
+  }
+
+  runButton() {
+    this.loadCode();
+    if (this.line_with_error === -1) {
+      this.interpreter.run();
+      this.setState({regs: this.interpreter.regs});
+    }
+  }
+
+  runDebugger() {
+    this.loadCode();
+    let next_statement = this.interpreter.get_next_statement();
+    if (this.line_with_error === -1) {
+      this.editor_ref.setNextLine(next_statement.line_number)
+    }
+  }
+
+  nextLine() {
+    let next_statement = this.interpreter.get_next_statement();
+    if (next_statement) {
+      this.interpreter.update_PC();
+      this.interpreter.execute_statement(next_statement);
+      this.setState({regs: this.interpreter.regs});
+      next_statement = this.interpreter.get_next_statement();
+      if (next_statement) {
+        this.editor_ref.setNextLine(next_statement.line_number);
+      } else {
+        this.editor_ref.setNextLine(-1);
+      }
+    } else {
+      this.editor_ref.setNextLine(-1);
     }
   }
 
@@ -106,7 +137,8 @@ export default class App extends React.Component {
         </div>
         <div className="editor-buttons">
           <button type="button" className="editor-button run" onClick={() => this.runButton()}>Run!</button> 
-          <button type="button" className="editor-button debuger" onClick={() => console.log('run debugger click')}>Run Debuger!</button> 
+          <button type="button" className="editor-button debugger" onClick={() => this.runDebugger()}>Run Debugger!</button> 
+          <button type="button" className="editor-button next-line" onClick={() => this.nextLine()}>Next </button> 
         </div>
         <Editor
           ref={editor_ref => this.editor_ref = editor_ref}

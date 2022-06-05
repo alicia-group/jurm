@@ -13,6 +13,13 @@ const error_line_decoration = Decoration.line({
   }
 })
 
+const next_line_decoration = Decoration.line({
+  attributes: {
+    "class": ".cm-editor-next-line",
+    "style": "background-color: #00ff0080;"
+  }
+})
+
 const line_with_error_field = StateField.define({
   create() {return -1},
   update(value, tr) {
@@ -30,15 +37,36 @@ const line_with_error_field = StateField.define({
   }
 })
 
+const next_line_field = StateField.define({
+  create() {return -1},
+  update(value, tr) {
+    console.log(tr)
+    let changed_editor = tr.annotations[0].value !== "select.pointer";
+    let changed_next_line = tr.annotations[0].value === "custom.next_line_change";
+    if (changed_editor && (!changed_next_line)) {
+      return -1;
+    }
+    if (changed_next_line) {
+      return tr.next_line;
+    } else {
+      return value;
+    }
+  }
+})
+
 function decorete_line_with_error(view) {
   let builder = new RangeSetBuilder();
   let line_with_error = view.state.field(line_with_error_field);
-  if (line_with_error !== -1) {
+  let next_line_debugger = view.state.field(next_line_field);
+  if (line_with_error !== -1 || next_line_debugger !== -1) {
     for (let {from, to} of view.visibleRanges) {
       for (let pos = from; pos <= to;) {
         let line = view.state.doc.lineAt(pos)
         if (line.number === line_with_error) {
           builder.add(line.from, line.from, error_line_decoration)
+        }
+        if (line.number === next_line_debugger) {
+          builder.add(line.from, line.from, next_line_decoration)
         }
         pos = line.to + 1
       }
@@ -90,7 +118,7 @@ export default class Editor extends React.Component {
       });
       let startState = EditorState.create({
         doc: this.state.code,
-        extensions: [basicSetup, updateDoc, defaultThemeOption, line_with_error_field, highlight_plugin]
+        extensions: [basicSetup, updateDoc, defaultThemeOption, line_with_error_field, next_line_field, highlight_plugin]
       })
       this.view = new EditorView({
         state: startState,
@@ -105,6 +133,15 @@ export default class Editor extends React.Component {
     highlight_annotation.type = {};
     let transaction = this.view.state.update({annotations: highlight_annotation});
     transaction.error_line = error_line;
+    this.view.dispatch(transaction);
+  }
+
+  setNextLine(next_line) {
+    let highlight_annotation = new Annotation()
+    highlight_annotation.value = "custom.next_line_change";
+    highlight_annotation.type = {};
+    let transaction = this.view.state.update({annotations: highlight_annotation});
+    transaction.next_line = next_line;
     this.view.dispatch(transaction);
   }
 
