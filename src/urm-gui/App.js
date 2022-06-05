@@ -6,7 +6,6 @@ import compile from '../jurm-module/compile.js';
 import Interpreter from '../jurm-module/interpreter';
 import RegistersComponent from './Registers.js';
 import Editor from './Editor.js';
-import initial_code from '../initial_code.js';
 
 export default class App extends React.Component {
   constructor() {

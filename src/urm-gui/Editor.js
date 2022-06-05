@@ -23,7 +23,6 @@ const next_line_decoration = Decoration.line({
 const line_with_error_field = StateField.define({
   create() {return -1},
   update(value, tr) {
-    console.log(tr)
     let changed_editor = tr.annotations[0].value !== "select.pointer";
     let changed_line_error = tr.annotations[0].value === "custom.error_line_change";
     if (changed_editor && (!changed_line_error)) {
@@ -40,7 +39,6 @@ const line_with_error_field = StateField.define({
 const next_line_field = StateField.define({
   create() {return -1},
   update(value, tr) {
-    console.log(tr)
     let changed_editor = tr.annotations[0].value !== "select.pointer";
     let changed_next_line = tr.annotations[0].value === "custom.next_line_change";
     if (changed_editor && (!changed_next_line)) {
@@ -54,7 +52,7 @@ const next_line_field = StateField.define({
   }
 })
 
-function decorete_line_with_error(view) {
+function highlight_lines_decoration(view) {
   let builder = new RangeSetBuilder();
   let line_with_error = view.state.field(line_with_error_field);
   let next_line_debugger = view.state.field(next_line_field);
@@ -78,11 +76,11 @@ function decorete_line_with_error(view) {
 const highlight_plugin = ViewPlugin.fromClass(class {
 
   constructor(view) {
-    this.decorations = decorete_line_with_error(view);
+    this.decorations = highlight_lines_decoration(view);
   }
 
   update(update) {
-    this.decorations = decorete_line_with_error(update.view);
+    this.decorations = highlight_lines_decoration(update.view);
   }
 }, {
   decorations: v => v.decorations
