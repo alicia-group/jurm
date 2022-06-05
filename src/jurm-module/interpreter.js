@@ -20,11 +20,14 @@ export default class Interpreter {
 
   get_next_statement() {
     let statement = this.parse_tree.statements[this.PC];
+    return statement;
+  }
+
+  update_PC() {
     this.PC += 1;
     if (this.PC >= this.parse_tree.statements.length) {
       this.PC = -1;
     }
-    return statement;
   }
 
   execute_load_statement(statement) {
@@ -92,6 +95,7 @@ export default class Interpreter {
     let next_command;
     while (this.PC >= 0) {
       next_command = this.get_next_statement();
+      this.update_PC();
       this.execute_statement(next_command);
     }
   }
