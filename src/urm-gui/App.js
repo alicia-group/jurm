@@ -18,7 +18,8 @@ export default class App extends React.Component {
     let regs = this.interpreter.regs;
     this.state = {
       regs: regs,
-      initial_register: initial_register
+      initial_register: initial_register,
+      debugger_mode: false
     };
   }
 
@@ -45,10 +46,16 @@ export default class App extends React.Component {
   }
 
   runDebugger() {
+    if (this.state.debugger_mode) {
+      this.editor_ref.setNextLine(-1);
+      this.setState({debugger_mode: false});
+      return;
+    }
     this.loadCode();
-    let next_statement = this.interpreter.get_next_statement();
     if (this.line_with_error === -1) {
-      this.editor_ref.setNextLine(next_statement.line_number)
+      let next_statement = this.interpreter.get_next_statement();
+      this.editor_ref.setNextLine(next_statement.line_number);
+      this.setState({debugger_mode: true});
     }
   }
 
@@ -63,9 +70,11 @@ export default class App extends React.Component {
         this.editor_ref.setNextLine(next_statement.line_number);
       } else {
         this.editor_ref.setNextLine(-1);
+        this.setState({debugger_mode: false});
       }
     } else {
       this.editor_ref.setNextLine(-1);
+      this.setState({debugger_mode: false});
     }
   }
 
@@ -115,6 +124,15 @@ export default class App extends React.Component {
   }
 
   render() {
+    let debugger_mode_style;
+    let debugger_button_text;
+    if (this.state.debugger_mode) {
+      debugger_mode_style = {};
+      debugger_button_text = "Debbuger mode ON! (click to cancel)";
+    } else {
+      debugger_mode_style = {display: "none"};
+      debugger_button_text = "Run debbuger!";
+    }
     return (
       <div className="App">
         <RegistersComponent 
@@ -136,8 +154,8 @@ export default class App extends React.Component {
         </div>
         <div className="editor-buttons">
           <button type="button" className="editor-button run" onClick={() => this.runButton()}>Run!</button> 
-          <button type="button" className="editor-button debugger" onClick={() => this.runDebugger()}>Run Debugger!</button> 
-          <button type="button" className="editor-button next-line" onClick={() => this.nextLine()}>Next </button> 
+          <button type="button" className="editor-button debugger" onClick={() => this.runDebugger()}>{debugger_button_text}</button> 
+          <button type="button" className="editor-button next-line" style={debugger_mode_style} onClick={() => this.nextLine()}>Next </button> 
         </div>
         <Editor
           ref={editor_ref => this.editor_ref = editor_ref}
