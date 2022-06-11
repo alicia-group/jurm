@@ -78,24 +78,6 @@ export default class App extends React.Component {
     }
   }
 
-  setRegisterWithAnimation(r_index, value) {
-    let register_is_in_screen = (r_index >= this.state.initial_register) && (r_index < this.register_length);
-    if (!register_is_in_screen) {
-      this.setState({initial_register: r_index});
-    }
-    setTimeout(() => {
-      let cell = document.getElementById('r_index_' + r_index);
-      cell.style.backgroundColor = 'aquamarine'
-      setTimeout(() => {
-        this.state.regs.set_r(r_index, value);
-        this.setState({regs: this.state.regs});
-        setTimeout(() => {
-          cell.style.backgroundColor = ''
-        }, 200);
-      }, 200);
-    }, 300);
-  }
-
   changeFirstRegister() {
     let form_text = document.getElementById("first_register").value;
     let int_value = parseInt(form_text);
