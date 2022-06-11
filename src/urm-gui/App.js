@@ -11,7 +11,6 @@ export default class App extends React.Component {
   constructor() {
     super();
     let initial_register = 0;
-    this.register_length = 10;
     this.interpreter = new Interpreter();
     this.editor_ref = null;
     this.line_with_error = -1;
@@ -19,6 +18,7 @@ export default class App extends React.Component {
     this.state = {
       regs: regs,
       initial_register: initial_register,
+      register_length: 15,
       debugger_mode: false
     };
   }
@@ -91,6 +91,19 @@ export default class App extends React.Component {
     }
   }
 
+  changeNumberOfRegisters() {
+    let form_text = document.getElementById("number_of_registers").value;
+    let int_value = parseInt(form_text);
+    if (int_value > 0) {
+      console.log("Text valid: " + int_value)
+      this.setState({
+        register_length: int_value
+      })
+    } else {
+      console.warn("Text invalid: " + form_text)
+    }
+  }
+
   inputValuesOfRegisters() {
     let form_text = document.getElementById("first_values").value;
     let text_items = form_text.split(' ').filter(i => i !== '');
@@ -119,7 +132,7 @@ export default class App extends React.Component {
       <div className="App">
         <RegistersComponent 
           initial_register={this.state.initial_register} 
-          register_length={this.register_length} 
+          register_length={this.state.register_length} 
           regs={this.state.regs}
         />
         <div className="register_inputs">
@@ -127,6 +140,11 @@ export default class App extends React.Component {
             <label htmlFor="first_register">Choose first register to show above: </label>
             <input id="first_register" type="text"></input>
             <button type="button" onClick={() => this.changeFirstRegister()}>Choose!</button> 
+          </div>
+          <div className="number_of_registers_input_div">
+            <label htmlFor="number_of_registers">Choose the number of registers to show above: </label>
+            <input id="number_of_registers" type="text"></input>
+            <button type="button" onClick={() => this.changeNumberOfRegisters()}>Choose!</button> 
           </div>
           <div className="first_values_input_div">
             <label htmlFor="first_values">Insert the first values in the registers: </label>
